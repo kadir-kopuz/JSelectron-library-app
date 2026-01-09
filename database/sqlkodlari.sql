@@ -1,6 +1,3 @@
-CREATE DATABASE kutuphanedb;
-
-
 CREATE TABLE Kullanici (
     kullanici_id INTEGER AUTO_INCREMENT PRIMARY KEY,
     kullanici_adi VARCHAR(50) UNIQUE NOT NULL,
