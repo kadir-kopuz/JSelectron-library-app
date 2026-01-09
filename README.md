@@ -1,67 +1,56 @@
-📚 Kütüphane Yönetim Sistemi (Electron.js & MySQL)
-Bu proje, Veri Tabanı Yönetim Sistemleri (VTYS) dersi final ödevi kapsamında geliştirilmiş, Electron.js tabanlı bir masaüstü uygulamasıdır. Sistem; kütüphane süreçlerini (üye, kitap, ödünç, ceza) veritabanı düzeyinde tetikleyiciler (trigger) ve saklı yordamlar (procedure) kullanarak yönetmektedir.
+# 📚 Kütüphane Yönetim Sistemi (VTYS Final Projesi)
 
-🖥️ Bilgisayarda Olması Gerekenler (Gereksinimler)
-Uygulamayı çalıştırmadan önce aşağıdaki araçların bilgisayarınızda yüklü olduğundan emin olun:
+Bu proje, **Veri Tabanı Yönetim Sistemleri (VTYS)** dersi kapsamında geliştirilmiş; üye, kitap, ödünç alma ve ceza süreçlerini uçtan uca yöneten **Electron.js** tabanlı bir masaüstü uygulamasıdır. Projenin temel amacı, karmaşık iş mantığını veritabanı düzeyinde **Trigger** (Tetikleyici) ve **Stored Procedure** (Saklı Yordam) yapıları ile yöneterek veri tutarlılığını sağlamaktır.
 
-Node.js & npm: Bağımlılıkların yüklenmesi ve uygulamanın çalıştırılması için gereklidir (Önerilen: v14 veya üzeri).
+---
 
-MySQL: Verilerin saklanacağı aktif bir veritabanı sunucusu.
+## 💻 Sistem Gereksinimleri
 
-XAMPP: MySQL sunucusunu başlatmak ve veritabanını phpMyAdmin üzerinden yönetmek için önerilir.
+Uygulamayı yerel ortamınızda çalıştırmak için aşağıdaki araçların kurulu olması gerekmektedir:
 
-Git: Projeyi GitHub üzerinden klonlamak için gereklidir.
+* **Node.js :** Uygulama çalışma ortamı ve bağımlılıkların yönetimi için.
+* **MySQL:** Verilerin saklanması ve SQL nesnelerinin çalışması için.
+* **XAMPP:** MySQL sunucusunu ve phpMyAdmin panelini yönetmek için önerilir.
+* **Git:** Proje dosyalarını klonlamak için.
 
-Kod Editörü: Ayarları düzenlemek için VS Code veya benzeri bir editör.
+---
 
-⚙️ Veritabanı Bağlantı Ayarları
-Uygulamanın veritabanına erişebilmesi için şu adımları takip edin:
+## ⚙️ Veritabanı Kurulumu ve Bağlantı Ayarları
 
-Veritabanını İçe Aktarın: * database/database-import.sql dosyasını phpMyAdmin veya MySQL arayüzünüz üzerinden sunucuya aktarın.
+Uygulamanın çalışması için veritabanı kurulumu **zorunludur**. Aşağıdaki adımları takip edin:
 
-Bu işlem kutuphanedb veritabanını, tüm tabloları, procedure'leri ve trigger'ları otomatik oluşturacaktır.
+### 1. Veritabanını İçe Aktarma(2 yöntem)
+**1.yöntem**
+`database/database-import.sql` dosyasını phpMyAdmin veya tercih ettiğiniz bir SQL istemcisi üzerinden içeri aktarın. Bu işlemi yaparken Diğer seçenekler kısmında
+dış anahtar denetlemelerini etkinleştir kısmındaki işaretlemeyi kaldırın. Bu işlem `kutuphanedb`veritabanını ve tüm tabloları otomatik olarak oluşturacaktır.
 
-Bağlantı Bilgilerini Düzenleyin:
+**2.yöntem**
+`database/sqlkodlari.sql` dosyasındaki tüm kodları kopyalayıp kutuphanedb diye bir database oluşturduktan sonra SQL sekmesinden bu kodları veritabanına ekleyin
 
-db.js dosyasını açın ve MySQL şifreniz varsa ilgili alana ekleyin:
+### 2. Bağlantı Yapılandırması
+`db.js` dosyasını açarak MySQL kullanıcı adınızı ve şifrenizi sunucunuza göre düzenleyin:
 
-JavaScript
-
+```javascript
+// db.js dosyasındaki ilgili alan
 const connection = mysql.createPool({
   host: "localhost",
   user: "root",       // MySQL kullanıcı adınız
-  password: "",       // MySQL şifreniz (varsa buraya yazın)
-  database: "kutuphanedb",
-  // ... diğer ayarlar
+  password: "",       // MySQL şifreniz (varsa)
+  database: "kutuphanedb", // Oluşturduğunuz veritabanının adı
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
-🚀 Kurulum ve Çalıştırma
-Proje dizininde bir terminal açarak aşağıdaki komutları sırasıyla çalıştırın:
+```
 
-Bağımlılıkları Yükleyin:
+### 2. Bağımlılıkları Yükleme
+Terminali açıp proje klasöründe şu komutu çalıştırın:
 
-Bash
-
+```bash
 npm install
-Not: Bu komut package.json içindeki electron ve mysql2 dahil tüm gerekli kütüphaneleri otomatik olarak yükler; paketleri ayrı ayrı kurmanıza gerek yoktur.
+```
 
-Uygulamayı Başlatın:
 
-Bash
 
-npm start
-🛠️ Uygulama Özellikleri ve İstenirler
-Uygulama, ödev kapsamında istenen tüm işlevleri yerine getirmektedir:
 
-Giriş Sistemi: Admin ve Görevli rolleriyle giriş desteği.
 
-Üye Yönetimi: Ekleme, güncelleme ve silme. (Borcu veya kitabı olan üye silinemez - Trigger Kontrolü).
-
-Kitap Yönetimi: Stok takibi ve kategori filtreleme. (Ödünçteki kitap silinemez - Trigger Kontrolü).
-
-Ödünç/İade: 15 günlük süre tanımlama ve 5 kitap sınırı kontrolü (Stored Procedure).
-
-Ceza Sistemi: Gecikme durumunda günlük 5 TL ceza hesaplama (Stored Procedure).
-
-Raporlar: Tarih bazlı işlemler ve en çok okunanlar analizi.
-
-Dinamik Sorgu: SQL kriterlerine göre arama ve sonuçları PDF olarak dışa aktarma.
