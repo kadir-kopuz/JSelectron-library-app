@@ -19,7 +19,12 @@ Uygulamayı yerel ortamınızda çalıştırmak için aşağıdaki araçların k
 
 Uygulamanın çalışması için veritabanı kurulumu **zorunludur**. Aşağıdaki adımları takip edin:
 
-### 1. Veritabanını İçe Aktarma(2 yöntem)
+### 1. projeyi klonla
+```bash
+git clone https://github.com/kadir-kopuz/JSelectron-library-app.git
+```
+
+### 2. Veritabanını İçe Aktarma(2 yöntem)
 **1.yöntem**
 `database/database-import.sql` dosyasını phpMyAdmin veya tercih ettiğiniz bir SQL istemcisi üzerinden içeri aktarın. Bu işlemi yaparken Diğer seçenekler kısmında
 dış anahtar denetlemelerini etkinleştir kısmındaki işaretlemeyi kaldırın. Bu işlem `kutuphanedb`veritabanını ve tüm tabloları otomatik olarak oluşturacaktır.
@@ -43,10 +48,7 @@ const connection = mysql.createPool({
 });
 ```
 
-### 2. projeyi klonla
-```bash
-git clone https://github.com/kadir-kopuz/JSelectron-library-app.git
-```
+
 
 ### 3. Bağımlılıkları Yükleme
 Terminali açıp proje klasöründe şu komutu çalıştırın:
