@@ -24,7 +24,9 @@ Uygulamanın çalışması için veritabanı kurulumu **zorunludur**. Aşağıda
 git clone https://github.com/kadir-kopuz/JSelectron-library-app.git
 ```
 
-### 2. Veritabanını İçe Aktarma(2 yöntem)
+### 2. Veritabanını İçe Aktarma
+Öncelikle XAMPP'i açıp apache ve mysql serverlarını start yapıyoruz ve mysql in admin tuşuna basıyoruz açılan kısımdan 2 farklı şekilde veritabanını içeri aktarabilirsiniz.
+
 **1.yöntem**
 `database/database-import.sql` dosyasını phpMyAdmin veya tercih ettiğiniz bir SQL istemcisi üzerinden içeri aktarın. Bu işlemi yaparken Diğer seçenekler kısmında
 dış anahtar denetlemelerini etkinleştir kısmındaki işaretlemeyi kaldırın. Bu işlem `kutuphanedb`veritabanını ve tüm tabloları otomatik olarak oluşturacaktır.
