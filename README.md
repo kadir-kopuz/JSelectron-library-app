@@ -19,12 +19,29 @@ Uygulamayı yerel ortamınızda çalıştırmak için aşağıdaki araçların k
 
 Uygulamanın çalışması için veritabanı kurulumu **zorunludur**. Aşağıdaki adımları takip edin:
 
-### 1. projeyi klonla
+### 1. Projeyi klonla
+
+Yeni boş bir klasör oluşturup o klasör üzerinde yeni bir terminal açın. 
+
 ```bash
 git clone https://github.com/kadir-kopuz/JSelectron-library-app.git
 ```
+ile projeyi klasöre klonlayın.
 
-### 2. Veritabanını İçe Aktarma
+### 2. Bağımlılıkları Yükleme
+
+```bash
+cd .\JSelectron-library-app\
+```
+yaparak `JSelectron-library-app` dizinine gidin.
+
+Sonra bulunduğunuz dizinde şu komutu çalıştırın.
+```bash
+npm install
+```
+
+
+### 3. Veritabanını İçe Aktarma
 Öncelikle XAMPP'i açıp apache ve mysql serverlarını start yapıyoruz ve mysql in admin tuşuna basıyoruz açılan kısımdan 2 farklı şekilde veritabanını içeri aktarabilirsiniz.
 
 **1.yöntem**
@@ -34,7 +51,7 @@ dış anahtar denetlemelerini etkinleştir kısmındaki işaretlemeyi kaldırın
 **2.yöntem**
 `database/sqlkodlari.sql` dosyasındaki tüm kodları kopyalayıp kutuphanedb diye bir database oluşturduktan sonra SQL sekmesinden bu kodları veritabanına ekleyin
 
-### 2. Bağlantı Yapılandırması
+### 4. Bağlantı Yapılandırması
 `db.js` dosyasını açarak MySQL kullanıcı adınızı ve şifrenizi sunucunuza göre düzenleyin:
 
 ```javascript
@@ -52,13 +69,8 @@ const connection = mysql.createPool({
 
 
 
-### 3. Bağımlılıkları Yükleme
-Terminali açıp proje klasöründe şu komutu çalıştırın:
 
-```bash
-npm install
-```
-### 4. Projeyi başlat
+### 5. Projeyi başlat
 Terminale gelip
 ```bash
 npm start
