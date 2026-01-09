@@ -71,3 +71,22 @@ function renderDynamicTable(rows) {
     )
     .join("");
 }
+
+async function kategorileriKutuyaDoldur() {
+  const kutu = document.getElementById("dyn-category");
+
+  const kategoriler = await ipcRenderer.invoke("get-categories");
+
+  kutu.innerHTML = '<option value="">Tümü</option>';
+
+  kategoriler.forEach((kat) => {
+    const secenek = document.createElement("option");
+    secenek.value = kat.kategori_ad;
+    secenek.textContent = kat.kategori_ad;
+    kutu.appendChild(secenek);
+  });
+}
+
+document.querySelector(".menu-card.dynamic").addEventListener("click", () => {
+  kategorileriKutuyaDoldur();
+});

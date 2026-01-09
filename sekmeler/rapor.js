@@ -83,22 +83,6 @@ function renderReportsTable(data) {
     .join("");
 }
 
-function exportToPDF() {
-  if (currentReportData.length === 0)
-    return alert("Dışa aktarılacak veri yok!");
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  doc.text("Kutuphane Yonetim Sistemi Raporu", 14, 15);
-  doc.autoTable({
-    html: "#reports-table",
-    startY: 25,
-    styles: { font: "courier" },
-  });
-
-  doc.save(`Rapor_${Date.now()}.pdf`);
-}
-
 reports.addEventListener("click", async () => {
   dashboard.classList.add("hidden");
   viewReports.classList.remove("hidden");
