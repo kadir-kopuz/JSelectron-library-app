@@ -43,12 +43,23 @@ const connection = mysql.createPool({
 });
 ```
 
-### 2. Bağımlılıkları Yükleme
+### 2. projeyi klonla
+```bash
+git clone https://github.com/kadir-kopuz/JSelectron-library-app.git
+```
+
+### 3. Bağımlılıkları Yükleme
 Terminali açıp proje klasöründe şu komutu çalıştırın:
 
 ```bash
 npm install
 ```
+### 4. Projeyi başlat
+Terminale gelip
+```bash
+npm start
+```
+yaz.
 
 
 
