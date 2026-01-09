@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "electron": "^39.2.7",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.0"
+  },
+  "name": "kutuphane-desktop-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadir-kopuz/electron-library-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kadir-kopuz/electron-library-app/issues"
+  },
+  "homepage": "https://github.com/kadir-kopuz/electron-library-app#readme"
+}

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="" id="login-screen">
+      <div class="login-card">
+        <div class="login-header">
+          <i class="fa-solid fa-book-open"></i>
+          <h1>Kütüphane Yönetim Sistemi</h1>
+        </div>
+        <br />
+        <form id="loginForm">
+          <div class="login-inputs">
+            <i class="fa-solid fa-user"></i>
+            <input
+              type="text"
+              id="username"
+              placeholder="Kullanıcı Adı (admin)"
+              required
+            />
+          </div>
+          <div class="login-inputs">
+            <i class="fa-solid fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              placeholder="Şifre (1234)"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-login">Giriş Yap</button>
+          <p id="login-error">Kullanıcı adı veya şifre hatalı</p>
+        </form>
+      </div>
+    </div>
+
+    <header class="main-header hidden">
+      <div class="header-left">
+        <i class="fa-solid fa-book logo"></i>
+        <h3>Kütüphane Sistemi</h3>
+      </div>
+      <div class="header-right">
+        <span class="user-info">
+          <i class="fa-solid fa-circle-user"></i>
+          <span id="display-username">Admin</span>
+        </span>
+        <button class="btn-logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Çıkış
+        </button>
+      </div>
+    </header>
+
+    <main class="container hidden">
+      <div id="view-dashboard" class="view active-view">
+        <div class="welcome-banner">
+          <h1>Hoşgeldiniz, <span></span></h1>
+
+          <p>İşlem yapmak istediğiniz modülü seçiniz.</p>
+        </div>
+
+        <div class="menu-grid">
+          <div class="menu-card members">
+            <div class="icon-circle">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>Üye Yönetimi</h3>
+            <p>Üye ekle, düzenle, sil ve listele.</p>
+          </div>
+
+          <div class="menu-card books">
+            <div class="icon-circle">
+              <i class="fa-solid fa-book-open"></i>
+            </div>
+            <h3>Kitap Yönetimi</h3>
+            <p>Kitap stok takibi ve kategori işlemleri.</p>
+          </div>
+          <div class="menu-card loans">
+            <div class="icon-circle">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+            <h3>Ödünç & İade</h3>
+            <p>Kitap ver ve teslim al.</p>
+          </div>
+          <div class="menu-card fines">
+            <div class="icon-circle">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <h3>Cezalar</h3>
+            <p>Gecikme cezaları ve borç sorgulama.</p>
+          </div>
+          <div class="menu-card reports">
+            <div class="icon-circle">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3>Raporlar</h3>
+            <p>Kütüphane istatistiklerini ve detaylı analizleri görüntüle.</p>
+          </div>
+
+          <div class="menu-card dynamic">
+            <div class="icon-circle">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <h3>Dinamik Sorgu</h3>
+            <p>Özel SQL sorguları çalıştır ve veritabanında arama yap.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-members" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Üye Yönetimi</h2>
+        </div>
+        <div class="content-box">
+          <div class="toolbar">
+            <input
+              type="text"
+              id="search-member"
+              placeholder="Üye Ara. (Ad, Soyad, E-posta)"
+            />
+            <button class="btn-primary" onclick="openModal('member-modal')">
+              + Yeni Üye
+            </button>
+          </div>
+          <table id="members-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td>a</td>
+              <td>b</td>
+              <td>c</td>
+              <td>d</td>
+              <td>
+                <button class="btn-edit" onclick="openModal('member-modal')">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-delete" onclick="deleteMember()">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="view-books" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Kitap Yönetimi</h2>
+        </div>
+        <div class="content-box">
+          <div class="toolbar">
+            <input
+              type="text"
+              id="search-books"
+              placeholder="Kitap Ara. (Kitap Adı, Yazar Adı)"
+            />
+            <select id="filter-category">
+              <option value="">Tüm Kategoriler</option>
+            </select>
+            <button class="btn-primary" onclick="openBookModal()">
+              + Yeni Kitap
+            </button>
+          </div>
+          <table id="books-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Kitap Adı</th>
+                <th>Yazar</th>
+                <th>Kategori</th>
+                <th>Stok</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td>a</td>
+              <td>b</td>
+              <td>c</td>
+              <td>d</td>
+              <td>e</td>
+              <td>
+                <button class="btn-edit">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn-delete">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="view-loans" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Ödünç ve İade İşlemleri</h2>
+        </div>
+        <div class="split-layout">
+          <div class="panel">
+            <h3>Ödünç Ver</h3>
+            <div class="form-stack">
+              <label>Üye Seçimi</label>
+              <select id="loan-member-select"></select>
+              <label>Kitap Seçimi</label>
+              <select id="loan-book-select"></select>
+              <div id="stock-msg" class="stock-info">Stok Durumu: -</div>
+              <button
+                class="btn-success full btn-confirm"
+                onclick="confirmLoan()"
+              >
+                Onayla ve Ver
+              </button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Teslim Al (Aktif Ödünçler)</h3>
+            <input
+              type="text"
+              id="search-loan"
+              placeholder="İsim veya Kitap Ara..."
+              class="sub-search"
+            />
+            <div class="table-scroll">
+              <table id="loans-table">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-fines" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Ceza Takibi</h2>
+        </div>
+        <div class="content-box">
+          <div class="toolbar wrap">
+            <select id="filter-fine-member">
+              <option value="">Tüm Üyeler</option>
+            </select>
+            <div class="date-group">
+              <input type="date" id="fine-start" />
+              <span>-</span>
+              <input type="date" id="fine-end" />
+            </div>
+          </div>
+          <div class="debt-alert">
+            Toplam Görüntülenen Borç:
+            <strong id="total-debt-display">0 TL</strong>
+          </div>
+          <table id="fines-table">
+            <thead>
+              <tr>
+                <th>Üye</th>
+                <th>Tutar</th>
+                <th>Tarih</th>
+                <th>Açıklama</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="view-reports" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Rapor Merkezi</h2>
+        </div>
+
+        <div class="split-layout" style="grid-template-columns: 300px 1fr">
+          <div class="panel">
+            <h3>Rapor Seçimi</h3>
+
+            <div class="report-buttons">
+              <button class="btn-outline full active" onclick="selectReport(1)">
+                <i class="fa-solid fa-calendar-days"></i> Tarih Aralıklı Ödünç
+              </button>
+              <button class="btn-outline full" onclick="selectReport(2)">
+                <i class="fa-solid fa-clock"></i> Geciken Kitaplar
+              </button>
+              <button class="btn-outline full" onclick="selectReport(3)">
+                <i class="fa-solid fa-ranking-star"></i> En Çok Okunanlar
+              </button>
+            </div>
+
+            <hr style="margin: 20px 0; border-color: #e2e8f0" />
+
+            <div id="report-filters">
+              <div id="filter-dates" class="form-stack">
+                <label>Başlangıç Tarihi</label>
+                <input type="date" id="rep-start" />
+                <label>Bitiş Tarihi</label>
+                <input type="date" id="rep-end" />
+              </div>
+
+              <div id="filter-extras" class="form-stack">
+                <label>Üye (Opsiyonel)</label>
+                <select id="rep-member">
+                  <option value="">Tüm Üyeler</option>
+                </select>
+                <label>Kategori (Opsiyonel)</label>
+                <select id="rep-category">
+                  <option value="">Tüm Kategoriler</option>
+                </select>
+              </div>
+
+              <button
+                onclick="runReport()"
+                class="btn-primary full"
+                style="margin-top: 15px"
+              >
+                Raporu Oluştur
+              </button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 id="report-title-display">Rapor Sonuçları</h3>
+
+            <div class="table-scroll" style="max-height: 600px">
+              <table id="reports-table">
+                <thead></thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: center; color: #999">
+                      Rapor türü seçip 'Oluştur' butonuna basınız.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-dynamic" class="view hidden">
+        <div class="page-header">
+          <button class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Ana Menü
+          </button>
+          <h2>Dinamik Sorgu Sihirbazı</h2>
+        </div>
+
+        <div class="split-layout" style="grid-template-columns: 320px 1fr">
+          <div class="panel">
+            <h3><span class="fa-solid fa-filter"></span> Kriter Belirle</h3>
+
+            <div class="form-stack">
+              <label>Kitap Adı (İçeren)</label>
+              <input type="text" id="dyn-title" placeholder="Örn: Sefiller" />
+
+              <label>Yazar (İçeren)</label>
+              <input type="text" id="dyn-author" placeholder="Örn: Hugo" />
+
+              <label>Kategori</label>
+              <select id="dyn-category">
+                <option value="">Tümü</option>
+                <option value="Roman">Roman</option>
+                <option value="Tarih">Tarih</option>
+                <option value="Bilim">Bilim</option>
+                <option value="Felsefe">Felsefe</option>
+              </select>
+
+              <div style="display: flex; gap: 10px">
+                <div style="flex: 1">
+                  <label>Min. Yıl</label>
+                  <input type="number" id="dyn-min-year" placeholder="1900" />
+                </div>
+                <div style="flex: 1">
+                  <label>Max. Yıl</label>
+                  <input type="number" id="dyn-max-year" placeholder="2024" />
+                </div>
+              </div>
+
+              <div class="checkbox-group">
+                <input type="checkbox" id="dyn-stock-only" />
+                <label for="dyn-stock-only" style="margin: 0; cursor: pointer"
+                  >Sadece Stokta Olanlar</label
+                >
+              </div>
+
+              <hr style="margin: 15px 0; border-color: #eee" />
+
+              <label>Sıralama (Bonus)</label>
+              <select id="dyn-sort">
+                <option value="name-asc">Kitap Adı (A-Z)</option>
+                <option value="name-desc">Kitap Adı (Z-A)</option>
+                <option value="year-desc">Yıl (Yeniden Eskiye)</option>
+                <option value="year-asc">Yıl (Eskiden Yeniye)</option>
+              </select>
+
+              <button
+                onclick="runDynamicQuery()"
+                class="btn-primary full"
+                style="margin-top: 15px"
+              >
+                <i class="fa-solid fa-search"></i> Sorguyu Çalıştır
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+              "
+            >
+              <h3 style="margin: 0; border: none">Sorgu Sonuçları</h3>
+              <div style="display: flex; gap: 10px">
+                <button
+                  onclick="exportDynamicPDF()"
+                  class="btn-outline"
+                  style="color: #991b1b; border-color: #991b1b"
+                >
+                  <i class="fa-solid fa-file-pdf"></i> PDF
+                </button>
+              </div>
+            </div>
+
+            <div
+              id="sql-preview"
+              style="
+                background: #1e293b;
+                color: #4ade80;
+                padding: 10px;
+                border-radius: 6px;
+                font-family: monospace;
+                font-size: 12px;
+                margin-bottom: 15px;
+                display: none;
+              "
+            >
+              SELECT * FROM Kitaplar WHERE 1=1
+            </div>
+
+            <div class="table-scroll" style="max-height: 550px">
+              <table id="dynamic-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Kitap Adı</th>
+                    <th>Yazar</th>
+                    <th>Kategori</th>
+                    <th>Yıl</th>
+                    <th>Stok</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6" style="text-align: center; color: #999">
+                      Kriterleri seçip sorgula butonuna basınız.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                text-align: right;
+                font-size: 13px;
+                color: #666;
+              "
+            >
+              Toplam Kayıt: <strong id="result-count">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="member-modal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-head">
+          <h3>Yeni Üye</h3>
+          <span onclick="closeModal('member-modal')">&times;</span>
+        </div>
+        <form onsubmit="saveMember(event)">
+          <input type="hidden" id="m-id" />
+          <input type="text" id="m-name" placeholder="Ad" required />
+          <input type="text" id="m-surname" placeholder="Soyad" required />
+          <input type="email" id="m-email" placeholder="Email" required />
+          <input
+            type="tel"
+            id="m-phone"
+            placeholder="Telefon (örnek: 555 555 55 55)"
+            required
+          />
+          <button class="btn-primary full">Kaydet</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="book-modal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-head">
+          <h3>Yeni Kitap</h3>
+          <span onclick="closeModal('book-modal')">&times;</span>
+        </div>
+        <form onsubmit="saveBook(event)">
+          <input type="hidden" id="b-id" />
+          <input type="text" id="b-name" placeholder="Kitap Adı" required />
+          <input type="text" id="b-author" placeholder="Yazar" required />
+          <select id="b-category" required></select>
+          <input type="text" id="b-publisher" placeholder="Yayınevi" />
+          <input type="number" id="b-year" placeholder="Basım Yılı" />
+          <input
+            type="number"
+            id="b-stock"
+            placeholder="Toplam Stok"
+            required
+          />
+          <button class="btn-primary full">Kaydet</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
+    <script src="sekmeler/ceza.js"></script>
+    <script src="sekmeler/kitap.js"></script>
+    <script src="sekmeler/uye.js"></script>
+    <script src="sekmeler/sorgu.js"></script>
+    <script src="sekmeler/rapor.js"></script>
+    <script src="sekmeler/odunc.js"></script>
+  </body>
+</html>
